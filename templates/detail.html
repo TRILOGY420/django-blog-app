@@ -1,0 +1,61 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Post content-->
+        <article>
+            <!-- Post header-->
+            <header class="mb-4">
+                <!-- Post title-->
+                <h3 class="fw-bolder mb-1">{{article.title}}</h3>
+                <!-- Post meta content-->
+                <div class="text-muted fst-italic mb-2">by {{article.author.username}}</div>
+                <div class="text-muted fst-italic mb-2">{{article.created_date}}</div>
+            </header>
+            <!-- Preview image figure-->
+            {% if article.article_image %}
+            <img class="img-fluid rounded" src="{{article.article_image.url}}" /> {% endif %}
+            <!-- Post content-->
+            <p>
+                {{article.content|safe}}
+            </p>
+        </article>
+        <br>
+        <h3>Yorumlar</h3>
+        <hr>
+        <!-- Comment Section -->
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="media mb-4">
+          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+          <div class="media-body">
+            <h5 class="mt-0">{{comment.comment_author}}</h5>
+            <small>{{comment.comment_date}}</small><br>
+            {{comment.comment_content}}
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning">
+            Henüz bir yorum yok...
+        </div>
+        {% endif %}
+        <div class="card my-4">
+            <h5 class="card-header">Yorum Ekle</h5>
+            <div class="card body">
+                <form method="POST" action="{% url 'article:comment' article.id %}">
+                    {% csrf_token %}
+                    <div class="form-group" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;">
+                        <label for="formGroupExampleInput">İsim</label>
+                        <input name="comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="İsminizi girin...">
+                    </div>
+                    <div class="form-group" style="margin-left: 15px; margin-right: 15px">
+                        <label for="formGroupExampleInput">Yorum</label>
+                        <textarea name="comment_content" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

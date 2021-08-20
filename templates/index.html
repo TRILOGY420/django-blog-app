@@ -1,0 +1,10 @@
+{% extends "layout.html" %} {% block body %}
+<p class="text-light bg-dark" style="text-align: center;border-radius: 15px;">
+    {% if request.user.is_authenticated %} Oturum açıldı, <small>{{request.user.username}}</small> {% else %} Oturum açılmadı. {% endif %}
+
+</p>
+<div class="jumbotron text-center">
+    <h3>Blog'a Hoşgeldiniz</h3>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit, iste!</p>
+</div>
+{% endblock %}
